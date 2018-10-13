@@ -19,7 +19,7 @@ class LinearEquation : public QMainWindow
     Q_DISABLE_COPY(LinearEquation)
 
 public:
-    explicit LinearEquation(QWidget * parent = nullptr);
+    explicit LinearEquation();
     ~LinearEquation();
 
 private slots:
@@ -52,26 +52,29 @@ private:
         MINIMUM_HEIGHT = 157
     };
 
-    QScopedPointer<Ui::LinearEquation> m_interface;
+    QScopedPointer<Ui::LinearEquation> m_interface; // no parent
 
-    size_t m_scale = 0;
+    int32_t m_scale = 0;
     Qt::CheckState m_determinantOnly = Qt::Unchecked;
 
-    ublas::matrix<float_t> m_matrix;
-    QVector<float_t> m_vector;
+    mutable ublas::matrix<float_t> m_matrix;
+    mutable QVector<float_t> m_vector;
 
-    const QColor m_colors[COLORS_COUNT] = {{50, 50, 65}, {65, 50, 50}, {50, 50, 50}};
+    const QColor m_colors[COLORS_COUNT] = {{50, 50, 65}, {65, 50, 50}, {50, 50, 50}}; // rgb
 
 // Private functions
     void FillTable();
-    Errors ReadTable();
+    Errors ReadTable() const;
 
-    void MakeColumnReadOnly(uint8_t) const;
-    void MakeColumnWriteable(uint8_t) const;
+    void MakeColumnReadOnly(uint8_t);
+    void MakeColumnWriteable(uint8_t);
 
     QVector<double_t> MakeSolution();
     double_t FindDeterminant() const;
-    double_t FindDeterminant(ublas::matrix<float_t> &) const;
+
+    template <typename T>
+    double_t FindDeterminant(T &&) const; // universal reference 
+
     ublas::matrix<float_t> SwapColumn(int32_t) const;
 
     void ResizeWindow();

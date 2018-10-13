@@ -15,7 +15,7 @@ class SizeWindow : public QDialog
     Q_DISABLE_COPY(SizeWindow)
 
 public:
-    explicit SizeWindow(size_t, Qt::CheckState, QWidget * parent = nullptr);
+    explicit SizeWindow(size_t, Qt::CheckState);
     ~SizeWindow();
 
 private slots:
@@ -33,7 +33,7 @@ private:
         MINIMUM_HEIGHT = 150
     };
 
-    QScopedPointer<Ui::SizeWindow> m_ui;
+    QScopedPointer<Ui::SizeWindow> m_ui; // no parent
 };
 
 #endif // SIZEWINDOW_H
