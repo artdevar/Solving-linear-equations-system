@@ -133,7 +133,7 @@ QVector<double_t> LinearEquation::MakeSolution()
     QVector<double_t> result(m_matrix.size2() + 1);
     result[0] = determinant;
 
-    // the half of work performs by the other tread
+    // the half of work performs by the other thread
     auto getResult = QtConcurrent::run([this, &result, determinant]
     {
         for(size_t i = 0; i < m_matrix.size2() / 2; ++i)
